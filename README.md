@@ -1,46 +1,38 @@
-Fruit Rescue (Robot)
-===================
+## Community Fruit Rescue
 
-A web app for managing the logistics of urban fruit harvesting. 
-It is being built for [Community Fruit Rescue](http://fruitrescue.org) in Boulder, Colorado, 
-by [Code for Boulder](http://www.codeforboulder.org/) and [Falling Fruit](http://fallingfruit.org).
+### Environment
 
-The overall purpose of the app is to:
+```
+$ npm install
+$ npm run build
+```
 
-- Collect homeowner, harvester, and fruit tree registrations.
-- Facilitate communication with homeowners and harvesters.
-- Plan, coordinate, and track harvests and donations.
-- Be generalized for easy adoption by similar organizations [across the globe](http://fallingfruit.org/sharing).
+### Development
 
-### How can I help?
-If you live in Boulder, join us at a Code for Boulder [Project Night](http://www.meetup.com/CodeForBoulder/)!
-If not, fork away!
+Watching `src/index.js` for changes:
 
-## Setup
+```
+$ watchify -t babelify src/index.js -o lib/index.js -v
+911248 bytes written to lib/index.js (2.47 seconds)
+```
 
-### Software Dependencies
+Watching `src/css` for changes:
 
-- [Meteor](https://www.meteor.com/install) - The JavaScript App Platform
-- [Coffee](http://coffeescript.org/): Easy-bake Javascript
-- [Jade](http://jade-lang.com/): Easy-bake HTML
-- [Less](http://lesscss.org/): Easy-bake CSS
+```
+$ watch 'cleancss src/css/fruit-rescue.css -o dist/fruit-rescue.min.css' src/css/
+> Watching src/css/
+```
 
-### Getting Started
+HTTP server for development:
 
-Once the above software is up and running on your console, run the dependencies script in the top directory:
+```
+$ http-server -p 8081
+```
 
-`./dependencies.sh`
+### Deploy to Github Pages
 
-This will install all Meteor packages needed to keep the website running. Meteor uses a built-in Mongo DB to keep track of everything, so it's easy to run:
-
-`meteor run`
-
-in Terminal, and you're good to go! Further Meteor help can be found at http://docs.meteor.com/ or http://meteortips.com/
-
-### Directory layout
-
-  * /api - application api
-  * /jade - compiles to html
-  * /less - compiles to css
-  * /coffee - compiles to javascript
-  * /docs - Schema and Structure info
+```
+$ git checkout gh-pages
+$ git rebase master
+$ git push
+```
