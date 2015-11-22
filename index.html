@@ -10,10 +10,10 @@
         <h3>{{title}}</h3>
         <p class="lead">
             <ul>
-                <li><strong>Estimated Ripening Date:</strong> {{date}}</li>
-                <li><strong>Typical Yield:</strong> {{yield}} lbs</li>
-                <li><strong>Approximate Height:</strong> {{height}} ft</li>
-                <li><strong>Sprayed or Treated:</strong> {{sprayed}}</li>
+                <li><strong>Estimated harvest date:</strong> {{date}}</li>
+                <li><strong>Typical yield:</strong> {{yield}} lbs</li>
+                <li><strong>Approximate height:</strong> {{height}} ft</li>
+                <li><strong>Sprayed or treated:</strong> {{sprayed}}</li>
             </ul>
         </p>
       </div>
@@ -24,7 +24,7 @@
 
     <div id="footer">
         <div class="btn-group">
-          <a class="btn btn-outline" type="button" id="addtree">Add Tree</a>
+          <a class="btn btn-outline" type="button" id="addtree">Add tree</a>
         </div>
     </div>
 
@@ -33,35 +33,30 @@
         <div class="leaflet-popup-content-wrapper">
             <div class="leaflet-popup-content">
                 <div class="popup">
-                    <h3>Join Harvest</h3>
+                    <h3>Join harvest</h3>
                     <form>
                         <dl class="form">
-                            <dt><label>Full Name*</label></dt>
+                            <dt><label>Full name*</label></dt>
                             <dd><input type="text" placeholder="Granny Smith" name="fullname"></dd>
                         </dl>
 
                         <dl class="form">
                             <dt><label>Email*</label></dt>
-                            <dd><input type="text" placeholder="granny.smith@gmail.com" name="email"></dd>
+                            <dd><input type="email" placeholder="granny.smith@gmail.com" name="email"></dd>
                         </dl>
 
                         <dl class="form">
                             <dt><label>Phone</label></dt>
-                            <dd><input type="text" placeholder="(720) 323-1213" name="phone" id="phone"></dd>
+                            <dd><input type="text" placeholder="(123) 456-7890" name="phone"></dd>
                         </dl>
 
-                        <div class="form-checkbox">
-                            <label>
-                              <input type="checkbox">
-                              Release Agreement*
-                            </label>
-                            <p class="note">
-                              I have read and agree to the <a href="#release" class="popup-link">Release Agreement</a>.
-                            </p>
-                        </div>
+                        <dl class="form">
+                            <dt><label>Release agreement*</label></dt>
+                            <dd><input type="checkbox"> I have read and agree to the <a href="#release" class="popup-link">legalese</a>.</dd>
+                        </dl>
 
                         <div class="form-actions">
-                            <button type="submit" class="btn btn-primary">Create Profile <i class="fa fa-chevron-right"></i></button>
+                            <button type="submit" class="btn btn-primary">Create profile <i class="fa fa-chevron-right"></i></button>
                             <a type="button" class="btn popup-link" href="#">Join</a>
                         </div>
                     </form>
@@ -75,20 +70,20 @@
         <div class="leaflet-popup-content-wrapper">
             <div class="leaflet-popup-content">
                 <div class="popup">
-                    <h3>Sign In</h3>
+                    <h3>Sign in</h3>
                     <form>
                         <dl class="form">
-                            <dt><label>Email</label></dt>
-                            <dd><input type="text" placeholder="granny.smith@gmail.com" name="email"></dd>
+                            <dt><label>Email*</label></dt>
+                            <dd><input type="email" placeholder="granny.smith@gmail.com" name="email"></dd>
                         </dl>
 
                         <dl class="form">
-                            <dt><label>Password</label></dt>
+                            <dt><label>Password*</label></dt>
                             <dd><input type="password" name="password"></dd>
                         </dl>
 
                         <div class="form-actions">
-                            <button type="submit" class="btn btn-primary">Sign In <i class="fa fa-chevron-right"></i></button>
+                            <button type="submit" class="btn btn-primary">Sign in <i class="fa fa-chevron-right"></i></button>
                         </div>
                     </form>
                 </div>
@@ -101,21 +96,21 @@
         <div class="leaflet-popup-content-wrapper">
             <div class="leaflet-popup-content">
                 <div class="popup">
-                    <h3>Sign Up</h3>
+                    <h3>Sign up</h3>
                     <form>
                         <dl class="form">
-                            <dt><label>Full Name*</label></dt>
+                            <dt><label>Full name*</label></dt>
                             <dd><input type="text" placeholder="Granny Smith" name="fullname"></dd>
                         </dl>
 
                         <dl class="form">
                             <dt><label>Email*</label></dt>
-                            <dd><input type="text" placeholder="granny.smith@gmail.com" name="email"></dd>
+                            <dd><input type="email" placeholder="granny.smith@gmail.com" name="email"></dd>
                         </dl>
 
                         <dl class="form">
                             <dt><label>Phone</label></dt>
-                            <dd><input type="text" placeholder="(720) 323-1213" name="phone" id="phone3"></dd>
+                            <dd><input type="text" placeholder="(123) 456-7890" name="phone"></dd>
                         </dl>
 
                         <dl class="form">
@@ -124,12 +119,12 @@
                         </dl>
 
                         <dl class="form">
-                            <dt><label>Confirm Password*</label></dt>
+                            <dt><label>Confirm password*</label></dt>
                             <dd><input type="password" name="confirmpassword"></dd>
                         </dl>
 
                         <div class="form-actions">
-                            <button type="submit" class="btn btn-primary">Sign Up <i class="fa fa-chevron-right"></i></button>
+                            <button type="submit" class="btn btn-primary">Sign up <i class="fa fa-chevron-right"></i></button>
                         </div>
                     </form>
                 </div>
@@ -142,7 +137,7 @@
         <div class="leaflet-popup-content-wrapper">
             <div class="leaflet-popup-content">
                 <div class="popup">
-                    <h3>Release Agreement</h3>
+                    <h3>Release agreement</h3>
                     <div style="height: 350px; overflow-y: scroll; margin-bottom: 15px">
                         <p>
                         To: Community Fruit Rescue and their volunteers, employees, guides, agents, representatives, successors and assigns (all of whom are hereinafter collectively referred to as "CFR")
@@ -175,21 +170,21 @@
         <div class="leaflet-popup-content-wrapper">
             <div class="leaflet-popup-content">
                 <div class="popup">
-                    <h3>Create Profile</h3>
+                    <h3>Create profile</h3>
                     <form>
                         <dl class="form">
-                            <dt><label>Full Name*</label></dt>
+                            <dt><label>Full name*</label></dt>
                             <dd><input type="text" placeholder="Granny Smith" name="fullname"></dd>
                         </dl>
 
                         <dl class="form">
                             <dt><label>Email*</label></dt>
-                            <dd><input type="text" placeholder="granny.smith@gmail.com" name="email"></dd>
+                            <dd><input type="email" placeholder="granny.smith@gmail.com" name="email"></dd>
                         </dl>
 
                         <dl class="form">
                             <dt><label>Phone</label></dt>
-                            <dd><input type="text" placeholder="(720) 323-1213" name="phone" id="phone2"></dd>
+                            <dd><input type="text" placeholder="(123) 456-7890" name="phone"></dd>
                         </dl>
 
                         <dl class="form">
@@ -198,13 +193,13 @@
                         </dl>
 
                         <dl class="form">
-                            <dt><label>Confirm Password*</label></dt>
+                            <dt><label>Confirm password*</label></dt>
                             <dd><input type="password" name="confirmpassword"></dd>
                         </dl>
 
                         <div class="form-actions">
                             <button type="button" class="btn popup-link" href="#join" style="float: left"><i class="fa fa-chevron-left"></i></button>
-                            <button type="submit" class="btn btn-primary" style="margin: 0">Sign Up <i class="fa fa-chevron-right"></i></button>
+                            <button type="submit" class="btn btn-primary" style="margin: 0">Sign up <i class="fa fa-chevron-right"></i></button>
                         </div>
                     </form>
                 </div>
@@ -217,21 +212,21 @@
         <div class="leaflet-popup-content-wrapper">
             <div class="leaflet-popup-content">
                 <div class="popup">
-                    <h3>Create Profile</h3>
+                    <h3>Create profile</h3>
                     <form>
                         <dl class="form">
-                            <dt><label>Full Name*</label></dt>
+                            <dt><label>Full name*</label></dt>
                             <dd><input type="text" placeholder="Granny Smith" name="fullname"></dd>
                         </dl>
 
                         <dl class="form">
                             <dt><label>Email*</label></dt>
-                            <dd><input type="text" placeholder="granny.smith@gmail.com" name="email"></dd>
+                            <dd><input type="email" placeholder="granny.smith@gmail.com" name="email"></dd>
                         </dl>
 
                         <dl class="form">
                             <dt><label>Phone</label></dt>
-                            <dd><input type="text" placeholder="(720) 323-1213" name="phone" id="phone4"></dd>
+                            <dd><input type="text" placeholder="(123) 456-7890" name="phone"></dd>
                         </dl>
 
                         <dl class="form">
@@ -240,13 +235,13 @@
                         </dl>
 
                         <dl class="form">
-                            <dt><label>Confirm Password*</label></dt>
+                            <dt><label>Confirm password*</label></dt>
                             <dd><input type="password" name="confirmpassword"></dd>
                         </dl>
 
                         <div class="form-actions">
                             <a type="button" class="btn popup-link" href="#tree" style="float: left"><i class="fa fa-chevron-left"></i></a>
-                            <button type="submit" class="btn btn-primary" style="margin: 0">Sign Up <i class="fa fa-chevron-right"></i></button>
+                            <button type="submit" class="btn btn-primary" style="margin: 0">Sign up <i class="fa fa-chevron-right"></i></button>
                         </div>
                     </form>
                 </div>
@@ -275,6 +270,7 @@
                             <dt><label>State*</label></dt>
                             <dd>
                                 <select class="select" name="state">
+                                    <option value="" disabled selected>---</option>
                                     <option value="AL">Alabama</option>
                                     <option value="AK">Alaska</option>
                                     <option value="AZ">Arizona</option>
@@ -331,12 +327,12 @@
                         </dl>
 
                         <dl class="form form-inline" style="margin-right: 0; margin-top: 0">
-                            <dt><label>Zip*</label></dt>
+                            <dt><label>Postal code*</label></dt>
                             <dd><input type="text" placeholder="80302" style="width: 150px; margin-right: 0" name="zip"></dd>
                         </dl>
 
                         <div class="form-actions">
-                            <a type="button" href="#tree" class="btn btn-primary popup-link">Add Tree <i class="fa fa-chevron-right"></i></a>
+                            <a type="button" href="#tree" class="btn btn-primary popup-link">Add tree <i class="fa fa-chevron-right"></i></a>
                         </div>
                     </form>
                 </div>
@@ -349,10 +345,10 @@
         <div class="leaflet-popup-content-wrapper">
             <div class="leaflet-popup-content">
                 <div class="popup">
-                    <h3>Add Tree</h3>
+                    <h3>Add tree</h3>
                     <form>
                         <dl class="form form-inline" style="margin-top: 0; margin-bottom: 0">
-                            <dt><label>Tree Species*</label></dt>
+                            <dt><label>Tree species*</label></dt>
                             <dd>
                               <select class="select" style="width: 205px" name="species" id="species"></select>
                             </dd>
@@ -361,30 +357,30 @@
                         <dl class="form form-inline" style="margin: 0">
                             <dt><label>Location</label></dt>
                             <dd>
-                                <a class="btn">Drop Pin</a>
+                                <a class="btn">Drop pin</a>
                             </dd>
                         </dl>
 
                         <dl class="form">
-                            <dt><label>Estimated Ripening Date*</label></dt>
+                            <dt><label>Estimated harvest date*</label></dt>
                             <dd><input type="text" placeholder="Sep 2nd" id="ripeningdate" name="ripeningdate"></dd>
                         </dl>
 
                         <dl class="form form-inline" style="margin: 0">
-                            <dt><label>Typical Yield (lbs)*</label></dt>
+                            <dt><label>Typical yield (lbs)*</label></dt>
                             <dd><input type="text" placeholder="300 lbs" style="width: 130px" name="yield"></dd>
                         </dl>
 
                         <dl class="form form-inline" style="margin: 0">
-                            <dt><label>Approximate Height (ft)*</label></dt>
+                            <dt><label>Approximate height (ft)*</label></dt>
                             <dd><input type="text" placeholder="42 ft" style="width: 160px; margin-right: 0" name="height"></dd>
                         </dl>
 
                         <dl class="form">
-                            <dt><label>Sprayed or Treated in the Past Year*</label></dt>
+                            <dt><label>Sprayed or treated in the past year*</label></dt>
                             <dd>
                               <select class="select" style="width: 100%" name="sprayed">
-                                <option>Choose an option</option>
+                                <option disabled selected>---</option>
                                 <option>Yes, with a common chemical</option>
                                 <option>Yes, but it is non-toxic</option>
                                 <option>No</option>
@@ -407,11 +403,11 @@
         <div id="header">
             <h2>Harvests</h2>
             <div class="btn-group" id="unauthenticated">
-              <a class="btn btn-outline popup-link" type="button" href="#signup">Sign Up</a>
-              <a class="btn btn-outline popup-link" type="button" href="#signin">Sign In</a>
+              <a class="btn btn-outline popup-link" type="button" href="#signup">Sign up</a>
+              <a class="btn btn-outline popup-link" type="button" href="#signin">Sign in</a>
             </div>
             <div class="btn-group" id="authenticated">
-              <a class="btn btn-outline" type="button" href="#" id="signout">Sign Out</a>
+              <a class="btn btn-outline" type="button" href="#" id="signout">Sign out</a>
               <a class="btn btn-outline"><i class="fa fa-user"></i></a>
             </div>
         </div>
