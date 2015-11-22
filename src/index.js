@@ -121,20 +121,28 @@ query.find({
 query = new Parse.Query(Tree)
 
 query.include('species')
+query.limit(500)
 query.find({
     success: trees => {
         for (let tree of trees) {
-            let latlng = tree.get('latlng')
+            if (tree.get('latlng')) {
+                let latlng = tree.get('latlng')
+                let species = 'Unknown'
 
-            L.circleMarker([latlng.latitude, latlng.longitude], {radius: 7, fillColor: '#6CC644', fillOpacity: 1})
-                .addTo(map)
-                .bindPopup(popupTemplate({
-                    title: tree.get('species').get('name'),
-                    date: moment.utc(tree.get('harvest_date')).format('MMM Do'),
-                    yield: tree.get('harvest_pounds'),
-                    height: tree.get('height_feet'),
-                    sprayed: tree.get('sprayed')
-                }))
+                if (tree.get('species')) {
+                    species = tree.get('species').get('name')
+                }
+
+                L.circleMarker([latlng.latitude, latlng.longitude], {radius: 7, fillColor: '#6CC644', fillOpacity: 1})
+                    .addTo(map)
+                    .bindPopup(popupTemplate({
+                        title: species,
+                        date: moment.utc(tree.get('harvest_date')).format('MMM Do'),
+                        yield: tree.get('harvest_pounds'),
+                        height: tree.get('height_feet'),
+                        sprayed: tree.get('sprayed')
+                    }))
+            }
         }
     }
 })
