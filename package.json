@@ -7,9 +7,11 @@
     "lint": "eslint src/*.js",
     "build-css": "cleancss src/css/fruit-rescue.css -o dist/fruit-rescue.min.css",
     "build-js": "babelify src/index.js -o lib/index.js",
+    "build": "npm run build-js && npm run build-css",
     "watch-js": "watchify -t babelify src/index.js -o lib/index.js -v",
     "watch-css": "watch 'cleancss src/css/fruit-rescue.css -o dist/fruit-rescue.min.css' src/css/",
-    "build": "npm run build-js && npm run build-css",
+    "watch": "npm run watch-js & npm run watch-css",
+    "start": "http-server -p 8081",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
