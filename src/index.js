@@ -61,13 +61,26 @@ const Tree = Parse.Object.extend('Tree')
 const harvestJoin = function (e) {
     e.preventDefault()
 
-    if (currentUser) {
-        $(this).html('Joined <i class="fa fa-check-circle" style="vertical-align: baseline"></i>').attr('disabled', 'disabled').addClass('disabled')
-        $(this).unbind('click', harvestJoin)
-    } else {
-        $('.modal').hide()
-        $('#join').show()
-    }
+    let harvestId = $(this).data('harvest')
+      , query = new Parse.Query(Harvest)
+
+    query.get(harvestId, {
+        success: harvest => {
+            if (currentUser) {
+                // TODO: Add harvest signup
+
+                $(this).html('Joined <i class="fa fa-check-circle" style="vertical-align: baseline"></i>').attr('disabled', 'disabled').addClass('disabled')
+                $(this).unbind('click', harvestJoin)
+            } else {
+                $('#join h3').text('Join ' + harvest.get('name'))
+                $('.modal').hide()
+                $('#join').show()
+            }
+        },
+        error: (harvest, error) => {
+            // TODO: Handle error
+        }
+    })
 }
 
 let query = new Parse.Query(Species)
