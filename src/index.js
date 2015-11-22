@@ -66,7 +66,7 @@ const harvestJoin = function (e) {
         $(this).unbind('click', harvestJoin)
     } else {
         $('.modal').hide()
-        $($(this).attr('href')).show()
+        $('#join').show()
     }
 }
 
@@ -106,9 +106,9 @@ query.find({
                         ${moment.utc(harvest.get('date')).format('MMM Do')}
                     </td>
                     <td>
-                        <a class="btn btn-sm btn-outline popup-link" href="#join" data-harvest="${harvest.id}">
+                        <button class="btn btn-sm btn-outline popup-link" data-harvest="${harvest.id}">
                             Join
-                        </a>
+                        </button>
                     </td>
                 </tr>
             `
