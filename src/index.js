@@ -144,6 +144,8 @@ let currentUser = Parse.User.current()
   , signupForm = document.querySelector('#signup form')
   , propertyForm = document.querySelector('#property form')
   , propertysignupForm = document.querySelector('#propertysignup form')
+  , joinForm = document.querySelector('#join form')
+  , joinsignupForm = document.querySelector('#joinsignup form')
   , treeForm = document.querySelector('#tree form')
   , signoutUI = () => {
     document.getElementById('unauthenticated').style.display = 'block'
@@ -335,6 +337,37 @@ let currentUser = Parse.User.current()
         }
     })
 }
+  , join = e => {
+    e.preventDefault()
+
+    joinsignupForm.fullname.value = joinForm.fullname.value
+    joinsignupForm.email.value = joinForm.email.value
+    joinsignupForm.phone.value = joinForm.phone.value
+
+    $('.modal').hide()
+    $('#joinsignup').show()
+}
+ , joinsignup = e => {
+    e.preventDefault()
+
+    let user = new Parse.User()
+    user.set('username', joinsignupForm.email.value)
+    user.set('email', joinsignupForm.email.value)
+    user.set('password', joinsignupForm.password.value)
+    user.set('fullname', joinsignupForm.fullname.value)
+    user.set('phone', joinsignupForm.phone.value)
+
+    user.signUp(null, {
+        success: user => {
+            currentUser = user
+            signinUI()
+            $('.modal').hide()
+        },
+        error: (user, error) => {
+            // TODO: Handle errors in form
+        }
+    })
+}
 
 if (currentUser) {
     signinUI()
@@ -351,6 +384,8 @@ $('#signout').click(e => {
 signinForm.addEventListener('submit', signin, false)
 signupForm.addEventListener('submit', signup, false)
 treeForm.addEventListener('submit', tree, false)
+joinForm.addEventListener('submit', join, false)
+joinsignupForm.addEventListener('submit', joinsignup, false)
 propertysignupForm.addEventListener('submit', propertysignup, false)
 
 
