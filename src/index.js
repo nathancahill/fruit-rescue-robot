@@ -1,7 +1,6 @@
 
 import L from 'leaflet'
 import Handlebars from 'handlebars'
-import nanoajax from 'nanoajax'
 import Parse from 'parse'
 import Split from 'split.js'
 import Pikaday2 from 'pikaday2'
@@ -13,31 +12,28 @@ Split(['#map', '#list'], {
     minSize: [200, 300]
 })
 
-$('.flyout-btn').click(() => {
-    $('.flyout-btn').toggleClass('btn-rotate');
-    $('.flyout').find('a').removeClass();
-    return $('.flyout').removeClass('flyout-init fade').toggleClass('expand');
-});
-
-$('.flyout').find('a').click(() => {
-    $('.flyout-btn').toggleClass('btn-rotate');
-    $('.flyout').removeClass('expand').addClass('fade');
-    return $(this).addClass('clicked');
-})
-
 $('.popup-link').click(function (e) {
     e.preventDefault()
-    console.log($(this).attr('href'))
     $('.modal').hide()
     $($(this).attr('href')).show()
 })
 
-$('.modal .leaflet-popup-close-button').click(function (e) {
+$('.modal .leaflet-popup-close-button').click(e => {
     e.preventDefault()
     $('.modal').hide()
 })
 
-new Pikaday2({
+$('#addtree').click((e) => {
+    e.preventDefault()
+
+    if (currentUser && currentUser.get('property')) {
+        $('#tree').show()
+    } else {
+        $('#property').show()
+    }
+})
+
+let ripeningdate = new Pikaday2({
     field: document.getElementById('ripeningdate'),
     format: 'MMM Do'
 })
@@ -45,8 +41,10 @@ new Pikaday2({
 $("#phone").mask("(999) 999-9999")
 $("#phone2").mask("(999) 999-9999")
 $("#phone3").mask("(999) 999-9999")
+$("#phone4").mask("(999) 999-9999")
 
 const popupTemplate = Handlebars.compile(document.getElementById('popup-template').innerHTML);
+
 const map = L.map('map').setView([40.02, -105.28], 13)
 const tileLayer = L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
     attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
@@ -60,83 +58,282 @@ const Property = Parse.Object.extend('Property')
 const Harvest = Parse.Object.extend('Harvest')
 const Tree = Parse.Object.extend('Tree')
 
+const harvestJoin = function (e) {
+    e.preventDefault()
+
+    if (currentUser) {
+        $(this).html('Joined <i class="fa fa-check-circle" style="vertical-align: baseline"></i>').attr('disabled', 'disabled').addClass('disabled')
+        $(this).unbind('click', harvestJoin)
+    } else {
+        $('.modal').hide()
+        $($(this).attr('href')).show()
+    }
+}
+
 let query = new Parse.Query(Species)
 
 query.select(["objectId", "name", "scientific_name"])
 query.limit(1300)
 query.find({
     success: species => {
-        let html = species.map(spec => `<option id="${spec.get('objectId')}">${spec.get('name')} ${spec.get('scientific_name') ? '[' + spec.get('scientific_name') + ']' : ''}</option>`).join('')
-        document.getElementById('species').innerHTML = html
+        document.getElementById('species').innerHTML = species.map(spec => `
+                <option value="${spec.id}">
+                    ${spec.get('name')} ${spec.get('scientific_name') ? '[' + spec.get('scientific_name') + ']' : ''}
+                </option>
+            `
+        ).join('')
     },
     error: error => {
         document.getElementById('species').innerHTML = '<option>Could not load species.</option>'
-        console.log(error)
     }
 })
 
 query = new Parse.Query(Harvest)
+
+query.include('property')
 query.find({
     success: harvests => {
-        document.getElementById('harvests').innerHTML = ''
+        document.getElementById('harvests').innerHTML = harvests.map(harvest => `
+                <tr>
+                    <td>
+                        ${harvest.get('name')}
+                        <br>
+                        <span style="font-weight: normal">
+                            ${harvest.get('property').get('address')}
+                        </span>
+                    </td>
+                    <td>
+                        ${moment.utc(harvest.get('date')).format('MMM Do')}
+                    </td>
+                    <td>
+                        <a class="btn btn-sm btn-outline popup-link" href="#join" data-harvest="${harvest.id}">
+                            Join
+                        </a>
+                    </td>
+                </tr>
+            `
+        ).join('')
 
-        for (let harvest of harvests) {
-            harvest.get('property').fetch({
-                success: property => {
-                    document.getElementById('harvests').innerHTML += `
-                        <tr>
-                            <td>
-                                ${harvest.get('name')}
-                                <br>
-                                <span style="font-weight: normal">
-                                    ${property.get('address')}
-                                </span>
-                            </td>
-                            <td>${moment.utc(harvest.get('date')).format('MMM Do')}</td>
-                            <td>
-                                <a class="btn btn-sm btn-outline popup-link" href="#joinpopup">
-                                    Join
-                                </a>
-                            </td>
-                        </tr>
-                    `
-                }
-            })
-        }
+        $('#harvests .popup-link').bind('click', harvestJoin)
     }
 })
 
 query = new Parse.Query(Tree)
+
+query.include('species')
 query.find({
     success: trees => {
         for (let tree of trees) {
             let latlng = tree.get('latlng')
 
-            tree.get('species').fetch({
-                success: species => {
-                    L.circleMarker([latlng.latitude, latlng.longitude], {radius: 7, fillColor: '#6CC644', fillOpacity: 1})
-                        .addTo(map)
-                        .bindPopup(popupTemplate({
-                            title: species.get('name'),
-                            date: moment.utc(tree.get('harvest_date')).format('MMM Do'),
-                            yield: tree.get('harvest_pounds'),
-                            height: tree.get('height_feet'),
-                            sprayed: tree.get('sprayed')
-                        }))
-                }
-            })
+            L.circleMarker([latlng.latitude, latlng.longitude], {radius: 7, fillColor: '#6CC644', fillOpacity: 1})
+                .addTo(map)
+                .bindPopup(popupTemplate({
+                    title: tree.get('species').get('name'),
+                    date: moment.utc(tree.get('harvest_date')).format('MMM Do'),
+                    yield: tree.get('harvest_pounds'),
+                    height: tree.get('height_feet'),
+                    sprayed: tree.get('sprayed')
+                }))
         }
     }
 })
 
-let currentUser = Parse.User.current();
-let signoutUI = () => {
+let currentUser = Parse.User.current()
+  , signinForm = document.querySelector('#signin form')
+  , signupForm = document.querySelector('#signup form')
+  , propertyForm = document.querySelector('#property form')
+  , propertysignupForm = document.querySelector('#propertysignup form')
+  , treeForm = document.querySelector('#tree form')
+  , signoutUI = () => {
     document.getElementById('unauthenticated').style.display = 'block'
     document.getElementById('authenticated').style.display = 'none'
 }
-let signinUI = () => {
+  , signinUI = () => {
     document.getElementById('unauthenticated').style.display = 'none'
     document.getElementById('authenticated').style.display = 'block'
+}
+  , signin = e => {
+    e.preventDefault()
+
+    Parse.User.logIn(signinForm.email.value, signinForm.password.value, {
+        success: user => {
+            currentUser = user
+            signinUI()
+            signinForm.reset()
+            $('.modal').hide()
+        },
+        error: (user, error) => {
+            // TODO: Handle errors in from
+        }
+    })
+}
+  , signup = e => {
+    e.preventDefault()
+
+    let user = new Parse.User()
+    user.set('username', signupForm.email.value)
+    user.set('email', signupForm.email.value)
+    user.set('password', signupForm.password.value)
+    user.set('fullname', signupForm.fullname.value)
+    user.set('phone', signupForm.phone.value)
+
+    user.signUp(null, {
+        success: user => {
+            currentUser = user
+            signinUI()
+            signupForm.reset()
+            $('.modal').hide()
+        },
+        error: (user, error) => {
+            // TODO: Handle errors in form
+        }
+    })
+}
+  , tree = e => {
+    e.preventDefault()
+
+    if (currentUser && currentUser.get('property')) {
+        let t = new Tree()
+
+        query = new Parse.Query(Species)
+        query.get(treeForm.species.value, {
+            success: species => {
+                t.set('height_feet', parseFloat(treeForm.height.value))
+                t.set('harvest_pounds', parseFloat(treeForm.yield.value))
+                t.set('harvest_date', ripeningdate.getDate())
+                t.set('sprayed', treeForm.sprayed.value)
+                t.set('property', currentUser.get('property'))
+                t.set('species', species)
+
+                t.save(null, {
+                    success: (t) => {
+                        treeForm.reset()
+                        $('.modal').hide()
+                    },
+                    error: (t, error) => {
+                        // TODO: Handle errors in form
+                    }
+                })
+            },
+            error: (species, error) => {
+                // TODO: Handle errors in form
+            }
+        })
+    } else if (currentUser) {
+        let p = new Property()
+
+        p.set('address', propertyForm.address.value)
+        p.set('city', propertyForm.city.value)
+        p.set('state', propertyForm.state.value)
+        p.set('zip', propertyForm.zip.value)
+        p.set('owner', currentUser)
+
+        p.save(null, {
+            success: p => {
+                currentUser.set('property', p)
+                currentUser.save()
+
+                let t = new Tree()
+
+                query = new Parse.Query(Species)
+                query.get(treeForm.species.value, {
+                    success: species => {
+                        t.set('height_feet', parseFloat(treeForm.height.value))
+                        t.set('harvest_pounds', parseFloat(treeForm.yield.value))
+                        t.set('harvest_date', ripeningdate.getDate())
+                        t.set('sprayed', treeForm.sprayed.value)
+                        t.set('property', p)
+                        t.set('species', species)
+
+                        t.save(null, {
+                            success: t => {
+                                treeForm.reset()
+                                $('.modal').hide()
+                            },
+                            error: (t, error) => {
+                                // TODO: Handle errors in form
+                            }
+                        })
+                    },
+                    error: (species, error) => {
+                        // TODO: Handle errors in form
+                    }
+                })
+            },
+            error: (p, error) => {
+                // TODO: Handle errors in form
+            }
+        })
+    } else {
+        $('.modal').hide()
+        $('#propertysignup').show()
+    }
+}
+  , propertysignup = e => {
+    e.preventDefault()
+
+    let user = new Parse.User()
+    user.set('username', propertysignupForm.email.value)
+    user.set('email', propertysignupForm.email.value)
+    user.set('password', propertysignupForm.password.value)
+    user.set('fullname', propertysignupForm.fullname.value)
+    user.set('phone', propertysignupForm.phone.value)
+
+    user.signUp(null, {
+        success: user => {
+            currentUser = user
+            signinUI()
+
+            let p = new Property()
+
+            p.set('address', propertyForm.address.value)
+            p.set('city', propertyForm.city.value)
+            p.set('state', propertyForm.state.value)
+            p.set('zip', propertyForm.zip.value)
+            p.set('owner', currentUser)
+
+            p.save(null, {
+                success: p => {
+                    currentUser.set('property', p)
+                    currentUser.save()
+
+                    let t = new Tree()
+
+                    query = new Parse.Query(Species)
+                    query.get(treeForm.species.value, {
+                        success: species => {
+                            t.set('height_feet', parseFloat(treeForm.height.value))
+                            t.set('harvest_pounds', parseFloat(treeForm.yield.value))
+                            t.set('harvest_date', ripeningdate.getDate())
+                            t.set('sprayed', treeForm.sprayed.value)
+                            t.set('property', p)
+                            t.set('species', species)
+
+                            t.save(null, {
+                                success: t => {
+                                    treeForm.reset()
+                                    $('.modal').hide()
+                                },
+                                error: (t, error) => {
+                                    // TODO: Handle errors in form
+                                }
+                            })
+                        },
+                        error: (species, error) => {
+                            // TODO: Handle errors in form
+                        }
+                    })
+                },
+                error: (p, error) => {
+                    // TODO: Handle errors in form
+                }
+            })            
+        },
+        error: (user, error) => {
+            // TODO: Handle errors in form
+        }
+    })
 }
 
 if (currentUser) {
@@ -145,57 +342,16 @@ if (currentUser) {
     signoutUI()
 }
 
-document.getElementById('signout').addEventListener('click', (e) => {
+$('#signout').click(e => {
     e.preventDefault()
-
     Parse.User.logOut()
-
-    signoutUI()
+    signoutUI()    
 })
 
-let signinForm = document.querySelector('#signin form')
-
-let signin = (e) => {
-    e.preventDefault()
-
-    Parse.User.logIn(signinForm.email.value, signinForm.password.value, {
-        success: user => {
-            signinUI()
-            signinForm.reset()
-            $('.modal').hide()
-        },
-        error: (user, error) => {
-
-        }
-    })
-}
-
 signinForm.addEventListener('submit', signin, false)
-
-let signupForm = document.querySelector('#signup form')
-
-let signup = (e) => {
-    e.preventDefault()
-
-    let user = new Parse.User()
-    user.set('username', signupForm.email.value)
-    user.set('email', signupForm.email.value)
-    user.set('password', signupForm.password.value)
-    user.set('fullname', signupForm.fullname.value)
-
-    user.signUp(null, {
-        success: user => {
-            signinUI()
-            signupForm.reset()
-            $('.modal').hide()
-        },
-        error: (user, error) => {
-
-        }
-    })
-}
-
 signupForm.addEventListener('submit', signup, false)
+treeForm.addEventListener('submit', tree, false)
+propertysignupForm.addEventListener('submit', propertysignup, false)
 
 
 
