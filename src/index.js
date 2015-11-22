@@ -225,21 +225,39 @@ let currentUser = Parse.User.current()
         query = new Parse.Query(Species)
         query.get(treeForm.species.value, {
             success: species => {
+                let p = currentUser.get('property')
+
                 t.set('height_feet', parseFloat(treeForm.height.value))
                 t.set('harvest_pounds', parseFloat(treeForm.yield.value))
                 t.set('harvest_date', ripeningdate.getDate())
                 t.set('sprayed', treeForm.sprayed.value)
-                t.set('property', currentUser.get('property'))
+                t.set('property', p)
                 t.set('species', species)
 
-                t.save(null, {
-                    success: (t) => {
-                        treeForm.reset()
-                        $('.modal').hide()
-                    },
-                    error: (t, error) => {
-                        // TODO: Handle errors in form
-                    }
+                $.getJSON('https://maps.googleapis.com/maps/api/geocode/json?address=' + p.get('address') + ', ' + p.get('city') + ', ' + p.get('state') + ' ' + p.get('zip'), data => {
+                    let location = data['results'][0]['geometry']['location']
+
+                    t.set('latlng', new Parse.GeoPoint([location.lat, location.lng]))
+
+                    t.save(null, {
+                        success: (t) => {
+                            treeForm.reset()
+                            $('.modal').hide()
+
+                            L.circleMarker([location.lat, location.lng], {radius: 7, fillColor: '#6CC644', fillOpacity: 1})
+                                .addTo(map)
+                                .bindPopup(popupTemplate({
+                                    title: species.get('name'),
+                                    date: moment.utc(t.get('harvest_date')).format('MMM Do'),
+                                    yield: t.get('harvest_pounds'),
+                                    height: t.get('height_feet'),
+                                    sprayed: t.get('sprayed')
+                                }))
+                        },
+                        error: (t, error) => {
+                            // TODO: Handle errors in form
+                        }
+                    })
                 })
             },
             error: (species, error) => {
