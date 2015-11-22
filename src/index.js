@@ -38,10 +38,7 @@ let ripeningdate = new Pikaday2({
     format: 'MMM Do'
 })
 
-$("#phone").mask("(999) 999-9999")
-$("#phone2").mask("(999) 999-9999")
-$("#phone3").mask("(999) 999-9999")
-$("#phone4").mask("(999) 999-9999")
+$("input[name='phone']").mask("(999) 999-9999")
 
 const popupTemplate = Handlebars.compile(document.getElementById('popup-template').innerHTML);
 

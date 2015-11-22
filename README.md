@@ -2,31 +2,38 @@
 
 ### Environment
 
+Install global node modules to use from the command line:
+
 ```
-$ npm install
-$ npm run build
+npm install http-server -g
+npm install watch -g
+```
+
+Install local nodal modules listed in `package.json`:
+
+```
+npm install
 ```
 
 ### Development
 
-Watching `src/index.js` for changes:
+
+Build once from `src/index.js` and `src/fruit-rescue.css`:
 
 ```
-$ watchify -t babelify src/index.js -o lib/index.js -v
-911248 bytes written to lib/index.js (2.47 seconds)
+npm run build
 ```
 
-Watching `src/css` for changes:
+Or watch them for changes:
 
 ```
-$ watch 'cleancss src/css/fruit-rescue.css -o dist/fruit-rescue.min.css' src/css/
-> Watching src/css/
+npm run watch
 ```
 
-HTTP server for development:
+Start the web server on http://localhost:8081:
 
 ```
-$ http-server -p 8081
+npm run start
 ```
 
 ### Deploy to Github Pages
