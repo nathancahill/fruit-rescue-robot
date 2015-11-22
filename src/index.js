@@ -127,7 +127,10 @@ query.find({
         for (let tree of trees) {
             if (tree.get('latlng')) {
                 let latlng = tree.get('latlng')
-                let species = 'Unknown'
+                  , species = 'Unknown'
+                  , harvest_pounds = tree.get('harvest_pounds') || 'Unknown'
+                  , height_feet = tree.get('height_feet') || 'Unknown'
+                  , sprayed = tree.get('sprayed') || 'Not sure'
 
                 if (tree.get('species')) {
                     species = tree.get('species').get('name')
@@ -138,9 +141,9 @@ query.find({
                     .bindPopup(popupTemplate({
                         title: species,
                         date: moment.utc(tree.get('harvest_date')).format('MMM Do'),
-                        yield: tree.get('harvest_pounds'),
-                        height: tree.get('height_feet'),
-                        sprayed: tree.get('sprayed')
+                        yield: harvest_pounds,
+                        height: height_feet,
+                        sprayed: sprayed
                     }))
             }
         }
