@@ -33,6 +33,18 @@ $('#addtree').click((e) => {
     }
 })
 
+$('#search').change(function (e) {
+    var needle = $(this).children('input').val().toLowerCase();
+    $('#harvests tr').each(function (idx, element) {
+        if ($(element).text().toLowerCase().indexOf(needle) > -1) {
+            $(element).show();
+        }
+        else {
+            $(element).hide();
+        }
+    });
+})
+
 let ripeningdate = new Pikaday2({
     field: document.getElementById('ripeningdate'),
     format: 'MMM Do'
