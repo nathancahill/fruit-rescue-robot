@@ -18,9 +18,14 @@ $('.popup-link').click(function (e) {
     $($(this).attr('href')).show()
 })
 
-$('.modal .leaflet-popup-close-button').click(e => {
+$('.popup-link-static').click(function (e) {
     e.preventDefault()
-    $('.modal').hide()
+    $($(this).attr('href')).show()
+})
+
+$('.modal .leaflet-popup-close-button, .modal .btn-close').click(e => {
+    e.preventDefault()
+    $(e.currentTarget).closest('.modal').hide();
 })
 
 $('#addtree').click((e) => {
