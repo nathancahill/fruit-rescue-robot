@@ -51,6 +51,10 @@ a.leaflet-popup-close-button {
     margin-right: 10px;
 }
 
+.btn {
+  font-weight: inherit !important;
+}
+
 .btn i.fa {
     vertical-align: middle;
 }
@@ -131,4 +135,30 @@ a.leaflet-popup-close-button {
     position: absolute;
     left: 15px;
     bottom: 15px;
+}
+
+/* User Profile */
+#userinfo .image {
+    margin: auto;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+}
+
+#userinfo h1 {
+    text-align: center;
+    font-size: 150%;
+}
+
+#userinfo dt {
+    color: #666;
+}
+
+#userinfo dd {
+    padding-bottom: 0.25em;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 0.5em;
 }

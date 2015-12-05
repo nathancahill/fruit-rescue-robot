@@ -453,15 +453,19 @@ let currentUser = Parse.User.current()
     })
 }
 
+// User profile
+
+const userInfoTemplate = Handlebars.compile(document.getElementById('userinfo-template').innerHTML);
+
 if (currentUser) {
     signinUI()
 		// Display user info, since it exists
-		document.getElementById('user-info-fill').innerHTML = 
-				("<ul><li>" + currentUser.get('username') + 
-				 "</li><li>" + currentUser.get('email') + 
-				 "</li><li>" + currentUser.get('fullname') + 
-				 "</li><li>" + currentUser.get('phone') + 
-				 "</li></ul>")
+		document.getElementById('user-info-fill').innerHTML = userInfoTemplate({
+        photo_url: 'https://www.stereodose.com/Stereodose/static/default_profile_image.jpg',
+        name: currentUser.get('fullname'),
+        email: currentUser.get('email'),
+        phone: currentUser.get('phone')
+		})
 } else {
     signoutUI()
 }
@@ -469,7 +473,8 @@ if (currentUser) {
 $('#signout').click(e => {
     e.preventDefault()
     Parse.User.logOut()
-    signoutUI()    
+    signoutUI()
+    $('.modal').hide()    
 })
 
 signinForm.addEventListener('submit', signin, false)

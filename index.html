@@ -18,6 +18,15 @@
         </p>
       </div>
     </script>
+    <script id="userinfo-template" type="text/x-handlebars-template">
+      <div class="image" style="background-image:url('{{photo_url}}')" src=""></div>
+		  <h1>{{name}}</h1>
+		  <dl>
+		    <dt>Email</dt><dd>{{email}}</dd>
+		    <dt>Phone</dt><dd>{{phone}}</dd>
+		  </dl>
+		  <a type="button" class="btn btn-sm" href="#">edit</a>
+    </script>
 </head>
 <body>
     <div id="map" class="split"></div>
@@ -132,12 +141,11 @@
         </div>
     </div>
 
-    <div id="userInfo" class="leaflet-popup modal">
+    <div id="userinfo" class="leaflet-popup modal">
       <a href="#close" class="leaflet-popup-close-button">×</a>
       <div class="leaflet-popup-content-wrapper">
         <div class="leaflet-popup-content">
           <div class="popup">
-            <h2>User Info</h2>
             <div id="user-info-fill">
               <!-- See index.js: ``if (currentUser)`` -->
             </div>
@@ -415,7 +423,7 @@
             </div>
             <div class="btn-group" id="authenticated" style="display: none">
               <a class="btn btn-outline" type="button" href="#" id="signout">Sign out</a>
-              <a class="btn btn-outline popup-link" type="button" href="#userInfo"><i class="fa fa-user"></i></a>
+              <a class="btn btn-outline popup-link" type="button" href="#userinfo"><i class="fa fa-user"></i></a>
             </div>
         </div>
 
