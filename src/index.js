@@ -1,4 +1,3 @@
-
 import L from 'leaflet'
 import Handlebars from 'handlebars'
 import Parse from 'parse'
@@ -160,9 +159,11 @@ query.find({
     }
 })
 
+// ALL OF OUR FORMS
 let currentUser = Parse.User.current()
   , signinForm = document.querySelector('#signin form')
   , signupForm = document.querySelector('#signup form')
+  , userInfoForm = document.querySelector('#userInfo form')
   , propertyForm = document.querySelector('#property form')
   , propertysignupForm = document.querySelector('#propertysignup form')
   , joinForm = document.querySelector('#join form')
@@ -176,6 +177,8 @@ let currentUser = Parse.User.current()
     document.getElementById('unauthenticated').style.display = 'none'
     document.getElementById('authenticated').style.display = 'block'
 }
+
+// Sign-in 
   , signin = e => {
     e.preventDefault()
 
@@ -191,6 +194,8 @@ let currentUser = Parse.User.current()
         }
     })
 }
+
+// Sign up
   , signup = e => {
     e.preventDefault()
 
@@ -213,9 +218,26 @@ let currentUser = Parse.User.current()
         }
     })
 }
+
+// Display user info
+  , userInfo = e => {
+			e.preventDefault()
+
+			if (currentUser) {
+					var tmp = document.getElementById("username");
+					tmp = currentUser.get('username')
+					currentUser.get('email')
+					currentUser.get('password')
+					currentUser.get('fullname')
+					currentUser.get('phone')
+			}
+}
+
+// Add a tree
   , tree = e => {
     e.preventDefault()
 
+			// If they have a property....
     if (currentUser && currentUser.get('property')) {
         let t = new Tree()
 
@@ -261,6 +283,8 @@ let currentUser = Parse.User.current()
                 // TODO: Handle errors in form
             }
         })
+
+    // If they're a user already...
     } else if (currentUser) {
         let p = new Property()
 
@@ -322,10 +346,13 @@ let currentUser = Parse.User.current()
             }
         })
     } else {
+				// They should sign up...
         $('.modal').hide()
         $('#propertysignup').show()
     }
 }
+
+// Register a property
   , propertysignup = e => {
     e.preventDefault()
 
@@ -391,6 +418,8 @@ let currentUser = Parse.User.current()
         }
     })
 }
+
+// Join the group!
   , join = e => {
     e.preventDefault()
 
@@ -435,17 +464,13 @@ $('#signout').click(e => {
     signoutUI()    
 })
 
+
+
 signinForm.addEventListener('submit', signin, false)
 signupForm.addEventListener('submit', signup, false)
+userInfoForm.addEventListener('submit', userInfo, false)
 treeForm.addEventListener('submit', tree, false)
 joinForm.addEventListener('submit', join, false)
 joinsignupForm.addEventListener('submit', joinsignup, false)
 propertysignupForm.addEventListener('submit', propertysignup, false)
-
-
-
-
-
-
-
 
