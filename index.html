@@ -132,6 +132,20 @@
         </div>
     </div>
 
+    <div id="userInfo" class="leaflet-popup modal">
+      <a href="#close" class="leaflet-popup-close-button">×</a>
+      <div class="leaflet-popup-content-wrapper">
+        <div class="leaflet-popup-content">
+          <div class="popup">
+            <h2>User Info</h2>
+            <div id="user-info-fill">
+              <!-- See index.js: ``if (currentUser)`` -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div id="release" class="leaflet-popup modal">
         <a href="#close" class="leaflet-popup-close-button">×</a>
         <div class="leaflet-popup-content-wrapper">
@@ -401,7 +415,7 @@
             </div>
             <div class="btn-group" id="authenticated" style="display: none">
               <a class="btn btn-outline" type="button" href="#" id="signout">Sign out</a>
-              <a class="btn btn-outline"><i class="fa fa-user"></i></a>
+              <a class="btn btn-outline popup-link" type="button" href="#userInfo"><i class="fa fa-user"></i></a>
             </div>
         </div>
 

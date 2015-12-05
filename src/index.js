@@ -1,4 +1,3 @@
-
 import L from 'leaflet'
 import Handlebars from 'handlebars'
 import Parse from 'parse'
@@ -177,15 +176,16 @@ query.find({
     }
 })
 
+// ALL OF OUR FORMS
 let currentUser = Parse.User.current()
-  , signinForm = document.querySelector('#signin form')
-  , signupForm = document.querySelector('#signup form')
-  , propertyForm = document.querySelector('#property form')
-  , propertysignupForm = document.querySelector('#propertysignup form')
-  , joinForm = document.querySelector('#join form')
-  , joinsignupForm = document.querySelector('#joinsignup form')
-  , treeForm = document.querySelector('#tree form')
-  , signoutUI = () => {
+, signinForm = document.querySelector('#signin form')
+, signupForm = document.querySelector('#signup form')
+, propertyForm = document.querySelector('#property form')
+, propertysignupForm = document.querySelector('#propertysignup form')
+, joinForm = document.querySelector('#join form')
+, joinsignupForm = document.querySelector('#joinsignup form')
+, treeForm = document.querySelector('#tree form')
+, signoutUI = () => {
     document.getElementById('unauthenticated').style.display = 'block'
     document.getElementById('authenticated').style.display = 'none'
 }
@@ -193,6 +193,8 @@ let currentUser = Parse.User.current()
     document.getElementById('unauthenticated').style.display = 'none'
     document.getElementById('authenticated').style.display = 'block'
 }
+
+// Sign-in 
   , signin = e => {
     e.preventDefault()
 
@@ -208,6 +210,8 @@ let currentUser = Parse.User.current()
         }
     })
 }
+
+// Sign up
   , signup = e => {
     e.preventDefault()
 
@@ -230,9 +234,12 @@ let currentUser = Parse.User.current()
         }
     })
 }
-  , tree = e => {
+
+// Add a tree
+, tree = e => {
     e.preventDefault()
 
+		// If they have a property....
     if (currentUser && currentUser.get('property')) {
         let t = new Tree()
 
@@ -278,6 +285,7 @@ let currentUser = Parse.User.current()
                 // TODO: Handle errors in form
             }
         })
+
     } else if (currentUser) {
         let p = new Property()
 
@@ -339,10 +347,13 @@ let currentUser = Parse.User.current()
             }
         })
     } else {
+				// They should sign up...
         $('.modal').hide()
         $('#propertysignup').show()
     }
 }
+
+// Register a property
   , propertysignup = e => {
     e.preventDefault()
 
@@ -408,6 +419,8 @@ let currentUser = Parse.User.current()
         }
     })
 }
+
+// Join the group!
   , join = e => {
     e.preventDefault()
 
@@ -442,6 +455,13 @@ let currentUser = Parse.User.current()
 
 if (currentUser) {
     signinUI()
+		// Display user info, since it exists
+		document.getElementById('user-info-fill').innerHTML = 
+				("<ul><li>" + currentUser.get('username') + 
+				 "</li><li>" + currentUser.get('email') + 
+				 "</li><li>" + currentUser.get('fullname') + 
+				 "</li><li>" + currentUser.get('phone') + 
+				 "</li></ul>")
 } else {
     signoutUI()
 }
@@ -458,11 +478,4 @@ treeForm.addEventListener('submit', tree, false)
 joinForm.addEventListener('submit', join, false)
 joinsignupForm.addEventListener('submit', joinsignup, false)
 propertysignupForm.addEventListener('submit', propertysignup, false)
-
-
-
-
-
-
-
 
