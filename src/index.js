@@ -161,15 +161,14 @@ query.find({
 
 // ALL OF OUR FORMS
 let currentUser = Parse.User.current()
-  , signinForm = document.querySelector('#signin form')
-  , signupForm = document.querySelector('#signup form')
-  , userInfoForm = document.querySelector('#userInfo form')
-  , propertyForm = document.querySelector('#property form')
-  , propertysignupForm = document.querySelector('#propertysignup form')
-  , joinForm = document.querySelector('#join form')
-  , joinsignupForm = document.querySelector('#joinsignup form')
-  , treeForm = document.querySelector('#tree form')
-  , signoutUI = () => {
+, signinForm = document.querySelector('#signin form')
+, signupForm = document.querySelector('#signup form')
+, propertyForm = document.querySelector('#property form')
+, propertysignupForm = document.querySelector('#propertysignup form')
+, joinForm = document.querySelector('#join form')
+, joinsignupForm = document.querySelector('#joinsignup form')
+, treeForm = document.querySelector('#tree form')
+, signoutUI = () => {
     document.getElementById('unauthenticated').style.display = 'block'
     document.getElementById('authenticated').style.display = 'none'
 }
@@ -219,25 +218,11 @@ let currentUser = Parse.User.current()
     })
 }
 
-// Display user info
-  , userInfo = e => {
-			e.preventDefault()
-
-			if (currentUser) {
-					var tmp = document.getElementById("username");
-					tmp = currentUser.get('username')
-					currentUser.get('email')
-					currentUser.get('password')
-					currentUser.get('fullname')
-					currentUser.get('phone')
-			}
-}
-
 // Add a tree
-  , tree = e => {
+, tree = e => {
     e.preventDefault()
 
-			// If they have a property....
+		// If they have a property....
     if (currentUser && currentUser.get('property')) {
         let t = new Tree()
 
@@ -284,7 +269,6 @@ let currentUser = Parse.User.current()
             }
         })
 
-    // If they're a user already...
     } else if (currentUser) {
         let p = new Property()
 
@@ -454,6 +438,13 @@ let currentUser = Parse.User.current()
 
 if (currentUser) {
     signinUI()
+		// Display user info, since it exists
+		document.getElementById('user-info-fill').innerHTML = 
+				("<ul><li>" + currentUser.get('username') + 
+				 "</li><li>" + currentUser.get('email') + 
+				 "</li><li>" + currentUser.get('fullname') + 
+				 "</li><li>" + currentUser.get('phone') + 
+				 "</li></ul>")
 } else {
     signoutUI()
 }
@@ -464,11 +455,8 @@ $('#signout').click(e => {
     signoutUI()    
 })
 
-
-
 signinForm.addEventListener('submit', signin, false)
 signupForm.addEventListener('submit', signup, false)
-userInfoForm.addEventListener('submit', userInfo, false)
 treeForm.addEventListener('submit', tree, false)
 joinForm.addEventListener('submit', join, false)
 joinsignupForm.addEventListener('submit', joinsignup, false)

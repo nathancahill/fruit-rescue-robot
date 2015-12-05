@@ -133,17 +133,17 @@
     </div>
 
     <div id="userInfo" class="leaflet-popup modal">
-        <a href="#close" class="leaflet-popup-close-button">×</a>
-        <div class="leaflet-popup-content-wrapper">
-            <div class="leaflet-popup-content">
-                <div class="popup">
-                    <h3>User Info</h3>
-                    <div style="height: 350px; overflow-y: scroll; margin-bottom: 15px">
-                      <h2 id="username"></h2>
-                    </div>
-                </div>
+      <a href="#close" class="leaflet-popup-close-button">×</a>
+      <div class="leaflet-popup-content-wrapper">
+        <div class="leaflet-popup-content">
+          <div class="popup">
+            <h2>User Info</h2>
+            <div id="user-info-fill">
+              <!-- See index.js: ``if (currentUser)`` -->
             </div>
+          </div>
         </div>
+      </div>
     </div>
 
     <div id="release" class="leaflet-popup modal">
