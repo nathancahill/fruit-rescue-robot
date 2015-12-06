@@ -37,7 +37,7 @@ $('#addtree').click((e) => {
     }
 })
 
-$('#search').change(function (e) {
+$('#search').bind("keyup", function (e) {
     var needle = $(this).children('input').val().toLowerCase();
     $('#harvests tr').each(function (idx, element) {
         if ($(element).text().toLowerCase().indexOf(needle) > -1) {
